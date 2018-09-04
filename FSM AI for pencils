@@ -8,7 +8,7 @@
  //   and updates the state of mind. Act puts the object into motion, based on the state of mind, using physics.
  
  
- 
+ //collect needed info about the player
  private void TakeStimuli()
     {
         //any necessary information
@@ -18,6 +18,7 @@
         playerAngRot = player.GetComponent<Rigidbody2D>().angularVelocity;  //useful for avoid 
     }
 
+    //use current stimuli to amke a educated decision
     private void Decide()
     {
         //decision makiing...Importance in order of AIStates  
@@ -88,6 +89,7 @@
         
     }
 
+    //Carry out actions as determined by the state of mind, set by Decide()
     private void Act()
     {
         //Act on decision using switch
