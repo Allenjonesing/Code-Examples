@@ -1,0 +1,288 @@
+//Excerpt from "DirectXFramework.cpp" for AsterMaster
+//AsterMaster is a game much like asteroids, 
+//  but with opponent ships who pursue the player while avoiding asteroids and learning about hazards.
+//
+// This function determines if the AI ship is whithin distance to circle the player for an attack, 
+//  and if so, whether the bot should circle clockwise or counter-clockwise.
+
+
+
+void DXGame::AIBot::circle(float dt)
+{
+	if (this->canchase>=0.2)
+		this->canchase=0.0f;
+	this->lastQ=this->daQuad;
+	this->daQuad = quadToPlay(
+		this->ship.sprite.position.x, 
+		this->ship.sprite.position.y,
+		targx, 
+		targy);
+
+	if (this->clocklock==0)
+	{
+		this->clockwise=this->clockWise();
+		this->clocklock=1;
+	}
+
+	//if (this->lastQ
+	if (this->clockwise)
+	{
+	//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, 0, rand() % 255); // Random color and alpha
+switch (this->daQuad)
+	{
+	case 1:
+		{
+			if(this->ship.sprite.position.x > (this->targx-this->closedist))
+				//left
+			{
+			//	
+				this->ship.Thrust(1,dt);
+			}
+			else
+			{
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+				this->ship.LightThrust(3,dt);
+			}
+			//if(this->ship.sprite.position.y > (this->targy+this->closedist))
+				this->ship.Thrust(4,dt);
+			//else
+			//	this->ship.Thrust(2,dt);
+
+
+
+
+			/*
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(1,dt);
+			else
+			this->ship.LightThrust(3,dt);*/
+			break;
+		}
+
+	case 2:
+		{
+			//if(this->ship.sprite.position.x < (this->targx-this->closedist))
+				//left
+				this->ship.Thrust(3,dt);
+			//else
+			//	this->ship.Thrust(1,dt);
+
+			if(this->ship.sprite.position.y < (this->targy-this->closedist))
+				{//left
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+					this->ship.LightThrust(2,dt);}
+			else{
+			//	this->ship.sprite.color = D3DCOLOR_ARGB(255,0, 0, rand() % 255); // Random color and alpha
+				this->ship.Thrust(4,dt);
+			}
+
+			/*
+
+			//RIGHT
+				this->ship.Thrust(3,dt);
+			//Down
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(4,dt);
+			else
+			this->ship.LightThrust(2,dt);*/
+			break;
+		}
+
+	case 3:
+		{
+			if(this->ship.sprite.position.x < (this->targx+this->closedist))
+				{//left
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, 0, rand() % 255); // Random color and alpha
+				this->ship.Thrust(3,dt);}
+			else
+				{//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+				this->ship.LightThrust(1,dt);
+			}
+			//if(this->ship.sprite.position.y < (this->targy-this->closedist))
+				//left
+				this->ship.Thrust(2,dt);
+			//else
+			//	this->ship.Thrust(4,dt);
+			/*
+
+
+			//Down
+				this->ship.Thrust(2,dt);
+			//Left
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(3,dt);
+			else
+			this->ship.LightThrust(1,dt);*/
+			break;
+		}
+
+	case 4:
+		{
+			//if(this->ship.sprite.position.x > (this->targx+this->closedist))
+				this->ship.Thrust(1,dt);
+			///else
+			//	this->ship.Thrust(3,dt);
+			
+			if(this->ship.sprite.position.y > (this->targy+this->closedist))
+			{	//left
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+				this->ship.LightThrust(4,dt);}
+			else
+			{ 				//this->ship.sprite.color = D3DCOLOR_ARGB(255, 0, rand() % 255, 0); // Random color and alpha
+// Random color and alpha
+			this->ship.Thrust(2,dt);}
+			
+			
+			/*
+			
+			//LEFT
+				this->ship.Thrust(1,dt);
+			//UP
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(2,dt);
+			else
+			this->ship.LightThrust(4,dt);*/
+			break;
+		}
+	/*case 5:
+		{
+			this->ship.sprite.color = D3DCOLOR_ARGB( 255,0, 0, rand()%255); // Random color and alpha
+			
+			if (this->lastQ==5)
+			this->daQuad=this->lastQ;
+
+
+			this->daQuad=this->lastQ;
+			this->daQuad++;
+
+			if (this->daQuad>4)
+				this->daQuad-=4;
+
+			this->Qlock=1;
+			break;
+		}*/
+
+	}
+	}
+	else//CC
+	{
+			switch (this->daQuad)
+	{
+	case 1:
+		{
+			if(this->ship.sprite.position.y > (this->targy+this->closedist))
+				//left
+			{
+			//	this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+				this->ship.LightThrust(1,dt);
+			}
+			else
+			{
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, 0, rand() % 255); // Random color and alpha
+
+				this->ship.Thrust(2,dt);
+			}
+			//if(this->ship.sprite.position.y > (this->targy+this->closedist))
+				this->ship.Thrust(3,dt);
+			//else
+			//	this->ship.Thrust(2,dt);
+
+
+
+
+			/*
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(1,dt);
+			else
+			this->ship.LightThrust(3,dt);*/
+			break;
+		}
+
+	case 2:
+		{
+			//if(this->ship.sprite.position.x < (this->targx-this->closedist))
+				//left
+				this->ship.Thrust(2,dt);
+			//else
+			//	this->ship.Thrust(1,dt);
+
+			if(this->ship.sprite.position.x < (this->targx-this->closedist))
+				{//left
+			//	this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+					this->ship.LightThrust(3,dt);}
+			else{
+			//	this->ship.sprite.color = D3DCOLOR_ARGB(255,0, 0, rand() % 255); // Random color and alpha
+				this->ship.Thrust(1,dt);
+			}
+
+			/*
+
+			//RIGHT
+				this->ship.Thrust(3,dt);
+			//Down
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(4,dt);
+			else
+			this->ship.LightThrust(2,dt);*/
+			break;
+		}
+
+	case 3:
+		{
+			if(this->ship.sprite.position.y < (this->targy-this->closedist))
+				{//left
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+				this->ship.LightThrust(2,dt);
+			}
+			else
+				{				
+				//this->ship.sprite.color = D3DCOLOR_ARGB(255,0, 0, rand() % 255); // Random color and alpha
+				this->ship.Thrust(4,dt);
+			}
+			//if(this->ship.sprite.position.y < (this->targy-this->closedist))
+				//left
+				this->ship.Thrust(1,dt);
+			//else
+			//	this->ship.Thrust(4,dt);
+			/*
+
+
+			//Down
+				this->ship.Thrust(2,dt);
+			//Left
+			//RIGHT
+			if (this->dist
+				<200)
+				this->ship.LightThrust(3,dt);
+			else
+			this->ship.LightThrust(1,dt);*/
+			break;
+		}
+
+	case 4:
+		{
+			//if(this->ship.sprite.position.x > (this->targx+this->closedist))
+				this->ship.Thrust(4,dt);
+			///else
+			//	this->ship.Thrust(3,dt);
+			
+			if(this->ship.sprite.position.x > (this->targx+this->closedist))
+			{	//left
+			//	this->ship.sprite.color = D3DCOLOR_ARGB(255,0, rand() % 255, 0); // Random color and alpha
+				this->ship.LightThrust(1,dt);}
+			else
+			{ 		//		this->ship.sprite.color = D3DCOLOR_ARGB(255, 0, rand() % 255, 0); // Random color and alpha
+// Random color and alpha
+			this->ship.Thrust(3,dt);}
