@@ -1,0 +1,73 @@
+//excerpt from "PencilControl.cs" for Pencil Pusher
+// The Game is about fighting pencils, which mainly behave as weeble wobbles. 
+//  Their only attack is to jumo and spin, these functions just aid with standing, falling, and recovering.
+//
+//Functions: Dampen and Getup, carried out in order during update. 
+//  Dampen is a test of angular velocity, if too great, the pencil is wobbling too much.
+//  If the test passes, the angular velocity is reduced during each pass.
+//  Getup is a test of rotation, if stuck at 90 or 270, then the pencil is lying down.
+//  If the test passes, the pencil performs a kick backwards, then forwards, to recover.
+    
+    
+    
+    //Dampen ANgVel for standing
+    void Dampen()
+    {
+        //clamp rotaion
+        if (rb2D.rotation > 360) 
+            rb2D.rotation -= 360;
+        if (rb2D.rotation < 0) 
+            rb2D.rotation += 360;
+
+        //apply dampen
+        if ((Mathf.Abs(rb2D.angularVelocity) > maxAngVel) 
+            && (Mathf.Abs(rb2D.rotation) < minRot) 
+            && (timer <= 0) 
+            && onGround)
+        {
+            //Too Fast!!! Angular velocity halved, timer set to 30");
+            rb2D.angularVelocity /= 5;
+            timer = 30;
+        }
+        timer--;
+    }
+
+    //Get up when stuck lying down
+    void GetUp()
+    {
+        //for debug
+        rb2DRoatation = rb2D.rotation;
+        //CHeck if stuck
+        /*if (((Mathf.Abs(rb2D.rotation) > 89) && (Mathf.Abs(rb2D.rotation) < 91)) 
+            || ((Mathf.Abs(rb2D.rotation) > 269) && (Mathf.Abs(rb2D.rotation) < 271)))
+        */
+        lastPos = transform.position;
+        if (Mathf.Abs(lastPos.x-transform.position.x) < stuckThresh)
+        {
+            timer2++;
+            //Check if stuck for long
+            if (timer2 >= stuckTimeOut)
+            {
+                //Talk to us
+                Debug.LogAssertion("Stuck was indicated, init recovery");
+                //NEgative indicates lying with head to the righht
+                //COM to head to init 
+                rb2D.centerOfMass = com = stuckCom;
+                //give boost to raise feet, 
+                rb2D.angularVelocity += rb2D.rotation * initKickBoost;
+                //give boost downward to kick up
+                rb2D.AddForce(transform.up * kickupBoost);
+                //give boost to rotate and land
+                rb2D.angularVelocity += rb2D.rotation * jumpAngBoost;
+                //COM to feet to continue
+                rb2D.centerOfMass = com = onGroundCom;
+                //Reset timer
+                timer2 = 0;
+
+            }
+           // else
+                //timer2=0;   //Spending time lying doen
+        }
+        else
+            timer2 = 0;     //Reset timer because not stuck
+    }
