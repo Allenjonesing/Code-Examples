@@ -1,4 +1,7 @@
-//Bayesian learning function for DirectX game "AsterMaster"
+//excerpt from "DirectXFramework.cpp" for DirectX game "AsterMaster"
+//The game is like asteroids, but with enemy ships pursueing the player while avoiding asteroids and learning about hazards.
+//
+//Bayesian learning function 
 //Determines info about the asteroids in the play area: Size, Speed, and Temperature
 //Enemies will avoid all asteroids at first, and, as accidentally colliding with them, 
 //  record the info about what asteroids cause harm. The harmless asteroids are no longer avoided, 
