@@ -1,0 +1,39 @@
+//Bayesian learning function for DirectX game "AsterMaster"
+//Determines info about the asteroids in the play area: Size, Speed, and Temperature
+//Enemies will avoid all asteroids at first, and, as accidentally colliding with them, 
+//  record the info about what asteroids cause harm. The harmless asteroids are no longer avoided, 
+//  allowing the AI to better persue the player
+
+Eavoid DXGame::DecideBaye(AIBot bot, SpaceRock target)
+{
+		//determine sets
+	size2 = ( target.size > bot.brain.SMALLSIZE ) ? MEDSI : SMALL;
+	if (size2==MEDSI)
+		size2 = (  target.size > bot.brain.MEDSIZE ) ? BIG : MEDSI;
+
+	speed2 = ( bot.ship.sprite.speed > bot.brain.SLOWSPEED) ? MEDSP : SLOW;
+	if (speed2==MEDSP)
+		speed2 = ( bot.ship.sprite.speed > bot.brain.MEDSPEED ) ? FAST : MEDSP;
+	
+	temp2 = (  target.temp > bot.brain.COLDTEMP) ? NORM : COLD;
+	if (temp2==NORM)
+		temp2 = ( target.temp > bot.brain.NORMTEMP ) ? HOT : NORM;
+
+	//determine probabilties
+	float avoidProb = 
+		SizeProb( size2, AVOID ) *
+		SpeedProb( speed2, AVOID ) * 
+		TempProb( temp2, AVOID ) * 
+		AvoidProb( AVOID );
+
+	float collideProb = 
+		SizeProb( size2, COLLIDE ) * 
+		SpeedProb( speed2, COLLIDE ) * 
+		TempProb( temp2, COLLIDE ) * 
+		AvoidProb( COLLIDE );
+
+	if ( avoidProb > collideProb )
+		return AVOID;
+	else
+		return COLLIDE;
+}
