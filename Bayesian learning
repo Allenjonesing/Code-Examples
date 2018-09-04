@@ -7,9 +7,10 @@
 //  record the info about what asteroids cause harm. The harmless asteroids are no longer avoided, 
 //  allowing the AI to better persue the player
 
+//Bayesian larning for FSM AI
 Eavoid DXGame::DecideBaye(AIBot bot, SpaceRock target)
 {
-		//determine sets
+		//determine sets of asteroid info
 	size2 = ( target.size > bot.brain.SMALLSIZE ) ? MEDSI : SMALL;
 	if (size2==MEDSI)
 		size2 = (  target.size > bot.brain.MEDSIZE ) ? BIG : MEDSI;
@@ -22,13 +23,16 @@ Eavoid DXGame::DecideBaye(AIBot bot, SpaceRock target)
 	if (temp2==NORM)
 		temp2 = ( target.temp > bot.brain.NORMTEMP ) ? HOT : NORM;
 
-	//determine probabilties
+	//determine probabilties for the AI to follow
+	
+	//what to avoid
 	float avoidProb = 
 		SizeProb( size2, AVOID ) *
 		SpeedProb( speed2, AVOID ) * 
 		TempProb( temp2, AVOID ) * 
 		AvoidProb( AVOID );
 
+	//what to collide
 	float collideProb = 
 		SizeProb( size2, COLLIDE ) * 
 		SpeedProb( speed2, COLLIDE ) * 
